@@ -1,0 +1,37 @@
+{
+  "files": {
+    "main.css": "/aiproject/static/css/main.8e997ff2.css",
+    "main.js": "/aiproject/static/js/main.f714987d.js",
+    "static/js/404.f8af1b4a.chunk.js": "/aiproject/static/js/404.f8af1b4a.chunk.js",
+    "static/js/391.2e0bd5d7.chunk.js": "/aiproject/static/js/391.2e0bd5d7.chunk.js",
+    "static/js/133.0fbf92b5.chunk.js": "/aiproject/static/js/133.0fbf92b5.chunk.js",
+    "static/js/3.baed3381.chunk.js": "/aiproject/static/js/3.baed3381.chunk.js",
+    "static/js/787.56019bd2.chunk.js": "/aiproject/static/js/787.56019bd2.chunk.js",
+    "static/js/558.69c08282.chunk.js": "/aiproject/static/js/558.69c08282.chunk.js",
+    "static/js/986.9a4dc472.chunk.js": "/aiproject/static/js/986.9a4dc472.chunk.js",
+    "static/js/897.63741bd9.chunk.js": "/aiproject/static/js/897.63741bd9.chunk.js",
+    "static/js/359.6d9e0c47.chunk.js": "/aiproject/static/js/359.6d9e0c47.chunk.js",
+    "static/js/116.f3623f5c.chunk.js": "/aiproject/static/js/116.f3623f5c.chunk.js",
+    "static/js/659.6d40a566.chunk.js": "/aiproject/static/js/659.6d40a566.chunk.js",
+    "static/js/570.2308f24b.chunk.js": "/aiproject/static/js/570.2308f24b.chunk.js",
+    "index.html": "/aiproject/index.html",
+    "main.8e997ff2.css.map": "/aiproject/static/css/main.8e997ff2.css.map",
+    "main.f714987d.js.map": "/aiproject/static/js/main.f714987d.js.map",
+    "404.f8af1b4a.chunk.js.map": "/aiproject/static/js/404.f8af1b4a.chunk.js.map",
+    "391.2e0bd5d7.chunk.js.map": "/aiproject/static/js/391.2e0bd5d7.chunk.js.map",
+    "133.0fbf92b5.chunk.js.map": "/aiproject/static/js/133.0fbf92b5.chunk.js.map",
+    "3.baed3381.chunk.js.map": "/aiproject/static/js/3.baed3381.chunk.js.map",
+    "787.56019bd2.chunk.js.map": "/aiproject/static/js/787.56019bd2.chunk.js.map",
+    "558.69c08282.chunk.js.map": "/aiproject/static/js/558.69c08282.chunk.js.map",
+    "986.9a4dc472.chunk.js.map": "/aiproject/static/js/986.9a4dc472.chunk.js.map",
+    "897.63741bd9.chunk.js.map": "/aiproject/static/js/897.63741bd9.chunk.js.map",
+    "359.6d9e0c47.chunk.js.map": "/aiproject/static/js/359.6d9e0c47.chunk.js.map",
+    "116.f3623f5c.chunk.js.map": "/aiproject/static/js/116.f3623f5c.chunk.js.map",
+    "659.6d40a566.chunk.js.map": "/aiproject/static/js/659.6d40a566.chunk.js.map",
+    "570.2308f24b.chunk.js.map": "/aiproject/static/js/570.2308f24b.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8e997ff2.css",
+    "static/js/main.f714987d.js"
+  ]
+}
