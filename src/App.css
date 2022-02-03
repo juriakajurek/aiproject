@@ -1,38 +1,135 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
+.content-container {
+  min-height: 80vh;
+  max-width: 80vw;
+  width: 80vw;
+  align-self: center;
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.navbar {
+  justify-content: space-around;
+  align-items: space-around;
+}
+.navbar-buttons-container {
+  justify-content: space-between;
+}
+
+.App-header {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
   font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.recognizer-card .card-body {
+  padding: 4rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  border-radius: 1rem;
+
+  display: flex;
+  flex-direction: row !important;
+  align-items: center;
+  justify-content: space-between;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.settings-toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 3.5rem;
+  transform: scale(2);
+}
+.settings-toggle:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.video-container {
+  position: relative;
+  width: 640px;
+  height: 480px;
+}
+
+.cam {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 9;
+}
+
+.canvas {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 9;
+  width: 640;
+  height: 480;
+}
+
+.emoji-container {
+  z-index: 9;
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+.emoji-container p {
+  margin: 0;
+  padding: 2rem;
+  font-size: 3.5rem;
+}
+
+.switch-container {
+  padding: 5rem;
+  padding-right: 0;
+  width: auto;
+  height: auto;
+  font-size: 2.5rem;
+
+  justify-content: space-around;
+}
+
+.form-check {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+.form-check-input {
+  font-size: 1.5rem;
+}
+.remember-me {
+  justify-content: flex-end !important;
+  align-items: center;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.gestures-header {
+  color: #333;
+  font-size: 24px;
 }
