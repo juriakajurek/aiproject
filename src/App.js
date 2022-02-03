@@ -29,24 +29,18 @@ function App() {
   const [isThumbsDownActive, setThumbsDownActive] = useState(true);
   const [isVictoryActive, setVictoryActive] = useState(true);
   // const [isSettingsVisible, setSettingsVisible] = useState(false);
+  const [isSettingsRestored, setSettingsRestored] = useState(false);
+
+  // const [gesturesArray, setGesturesArray] = useState([]);
 
   useEffect(async () => {
     const net = await handpose.load();
-    await setInterval(() => {
-      detect(net, getVictoryActive);
+    setInterval(() => {
+      detect(net);
     }, 50);
-    runHandpose();
-    setVictoryActive(true);
-  }, []);
+  });
 
-  const getVictoryActive = () => isVictoryActive;
-
-  const runHandpose = async () => {
-    const net = await handpose.load();
-    await setInterval(() => {}, 300);
-  };
-
-  const detect = async (net, va) => {
+  const detect = async (net) => {
     if (
       typeof webcamRef.current != undefined &&
       webcamRef.current !== null &&
@@ -63,18 +57,14 @@ function App() {
 
       const hand = await net.estimateHands(video);
 
-      let gesturesArray = [];
-      if (isFingersSplayedActive == true)
-        gesturesArray = [...gesturesArray, fingersSplayed];
-      if (isFistActive == true) gesturesArray = [...gesturesArray, Fist];
-      if (isThumbsUpActive == true)
-        gesturesArray = [...gesturesArray, ThumbsUp];
-      if (isThumbsDownActive == true)
-        gesturesArray = [...gesturesArray, ThumbsDown];
-      if (va()) gesturesArray = [...gesturesArray, Victory];
-
       if (hand.length > 0) {
-        const GE = new fp.GestureEstimator(gesturesArray);
+        const GE = new fp.GestureEstimator([
+          fingersSplayed,
+          ThumbsDown,
+          ThumbsUp,
+          Victory,
+          Fist,
+        ]);
         const gesture = await GE.estimate(hand[0].landmarks, 9);
         if (gesture.gestures !== undefined && gesture.gestures.length > 0) {
           const confidences = gesture.gestures.map(
@@ -98,6 +88,152 @@ function App() {
     return <div onClick={signOut}>Wyloguj</div>;
   };
 
+  const EmojiCheckbox = (props) => {
+    const { db, e, userID } = useEasybase();
+
+    useEffect(() => {
+      restoreSettings();
+    }, []);
+
+    const updateSettings = async (settingName) => {
+      let fingerSplayedSetting = isFingersSplayedActive;
+      let fistSetting = isFistActive;
+      let thumbsUpSetting = isThumbsUpActive;
+      let thumbsDownSetting = isThumbsDownActive;
+      let victorySetting = isVictoryActive;
+
+      switch (settingName) {
+        case 'fingers_splayed':
+          fingerSplayedSetting = !fingerSplayedSetting;
+          break;
+        case 'fist':
+          fistSetting = !fistSetting;
+          break;
+        case 'thumbs_up':
+          thumbsUpSetting = !thumbsUpSetting;
+          break;
+        case 'thumbs_down':
+          thumbsDownSetting = !thumbsDownSetting;
+          break;
+        case 'victory':
+          victorySetting = !victorySetting;
+          break;
+        default:
+          break;
+      }
+
+      db('SETTINGS')
+        .return()
+        .where(e.eq('userId', userID()))
+        .all()
+        .then((res) => {
+          if (res.length > 0) {
+            db('SETTINGS')
+              .where({ _key: res[0]._key })
+              .set({
+                isFingersSplayedActive: fingerSplayedSetting,
+                isFistActive: fistSetting,
+                isThumbsUpActive: thumbsUpSetting,
+                isThumbsDownActive: thumbsDownSetting,
+                isVictoryActive: victorySetting,
+              })
+              .one();
+          } else {
+            db('SETTINGS')
+              .insert({
+                isFingersSplayedActive: fingerSplayedSetting,
+                isFistActive: fistSetting,
+                isThumbsUpActive: thumbsUpSetting,
+                isThumbsDownActive: thumbsDownSetting,
+                isVictoryActive: victorySetting,
+                userId: userID(),
+              })
+              .one();
+          }
+        });
+    };
+
+    const restoreSettings = async () => {
+      if (!isSettingsRestored) {
+        db('SETTINGS')
+          .return()
+          .where(e.eq('userId', userID()))
+          .all()
+          .then((res) => {
+            if (res.length > 0) {
+              console.log(res);
+              setFingersSplayedActive(res[0].isfingerssplayedactive);
+              setFistActive(res[0].isfistactive);
+              setThumbsUpActive(res[0].isthumbsupactive);
+              setThumbsDownActive(res[0].isthumbsdownactive);
+              setVictoryActive(res[0].isvictoryactive);
+              // updateGestureArray(res[0]);
+            }
+          })
+          .then(() => {});
+        setSettingsRestored(true);
+      }
+    };
+
+    // const updateGestureArray = (settings) => {
+    //   let tempArray = [];
+    //   if (settings.isfingerssplayedactive) tempArray.push(fingersSplayed);
+    //   if (settings.isfistactive) tempArray.push(Fist);
+    //   if (settings.isthumbsupactive) tempArray.push(ThumbsUp);
+    //   if (settings.isthumbsdownactive) tempArray.push(ThumbsDown);
+    //   if (settings.isvictoryactive) tempArray.push(Victory);
+
+    //   setGesturesArray(tempArray);
+    //   console.log(tempArray);
+    // };
+
+    const manageSettings = () => {
+      switch (props.emoji) {
+        case 'fingers_splayed':
+          updateSettings('fingers_splayed').then(() => {
+            setFingersSplayedActive(!isFingersSplayedActive);
+          });
+          break;
+        case 'fist':
+          updateSettings('fist').then(() => {
+            setFistActive(!isFistActive);
+          });
+          break;
+        case 'thumbs_up':
+          updateSettings('thumbs_up').then(() => {
+            setThumbsUpActive(!isThumbsUpActive);
+          });
+          break;
+        case 'thumbs_down':
+          updateSettings('thumbs_down').then(() => {
+            setThumbsDownActive(!isThumbsDownActive);
+          });
+          break;
+        case 'victory':
+          updateSettings('victory').then(() => {
+            setVictoryActive(!isVictoryActive);
+          });
+          break;
+        default:
+          break;
+      }
+    };
+
+    return (
+      <div className="form-check">
+        <input
+          className="form-check-input"
+          type="checkbox"
+          checked={props.checked}
+          id={props.id}
+          onChange={() => manageSettings()}
+        />
+        <label className="form-check-label" htmlFor={props.id}>
+          {getEmoji(props.emoji)}
+        </label>
+      </div>
+    );
+  };
   return (
     <div className="App">
       <EasybaseProvider ebconfig={ebconfig}>
@@ -208,85 +344,37 @@ function App() {
                   </div>
                 </div>
                 <div className="switch-container">
-                  <p className="gestures-header px-5">Rozpoznawane gesty:</p>
-                  <p className="gestures-header-hint px-5">
+                  <p className="gestures-header px-5 text-nowrap">
+                    Rozpoznawane gesty
+                  </p>
+                  <p className="gestures-header-hint text-nowrap">
                     Po wprowadzeniu zmian odśwież stronę
                   </p>
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      checked={isFingersSplayedActive}
-                      id="fingers-splayed-check"
-                      onChange={() =>
-                        setFingersSplayedActive(!isFingersSplayedActive)
-                      }
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="fingers-splayed-check"
-                    >
-                      🖐️
-                    </label>
-                  </div>
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      checked={isFistActive}
-                      id="fist-check"
-                      onChange={() => setFistActive(!isFistActive)}
-                    />
-                    <label className="form-check-label" htmlFor="fist-check">
-                      ✊
-                    </label>
-                  </div>
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      checked={isThumbsUpActive}
-                      id="thumbs-up-check"
-                      onChange={() => setThumbsUpActive(!isThumbsUpActive)}
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="thumbs-up-check"
-                    >
-                      👍
-                    </label>
-                  </div>
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      checked={isThumbsDownActive}
-                      id="thumbs-down-check"
-                      onChange={() =>
-                        isThumbsDownActive
-                          ? setThumbsDownActive(false)
-                          : setThumbsDownActive(true)
-                      }
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="thumbs-down-check"
-                    >
-                      👎
-                    </label>
-                  </div>
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      checked={isVictoryActive}
-                      id="victory-check"
-                      onChange={() => setVictoryActive(!isVictoryActive)}
-                    />
-                    <label className="form-check-label" htmlFor="victory-check">
-                      ✌️
-                    </label>
-                  </div>
+                  <EmojiCheckbox
+                    checked={isFingersSplayedActive}
+                    id="fingers-splayed-check"
+                    emoji="fingers_splayed"
+                  />
+                  <EmojiCheckbox
+                    checked={isThumbsUpActive}
+                    id="thumbs-up-check"
+                    emoji="thumbs_up"
+                  />
+                  <EmojiCheckbox
+                    checked={isThumbsDownActive}
+                    id="thumbs-down-check"
+                    emoji="thumbs_down"
+                  />
+                  <EmojiCheckbox
+                    checked={isFistActive}
+                    id="fist-check"
+                    emoji="fist"
+                  />
+                  <EmojiCheckbox
+                    checked={isVictoryActive}
+                    id="victory-check"
+                    emoji="victory"
+                  />
                 </div>
               </Card>
             </header>
