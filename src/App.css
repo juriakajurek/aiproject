@@ -132,4 +132,11 @@
 .gestures-header {
   color: #333;
   font-size: 24px;
+  margin-bottom: 0;
+}
+
+.gestures-header-hint {
+  color: #333;
+  font-size: 14px;
+  font-weight: 400;
 }

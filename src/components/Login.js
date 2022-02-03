@@ -8,7 +8,6 @@ const myPlaintextPassword = 's0//P4$$w0rD';
 export const LoginComponent = (props) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  // const [passwordHash, setPasswordHash] = useState(undefined);
   useEffect(() => {
     console.log(password);
   });
@@ -74,7 +73,7 @@ export const LoginComponent = (props) => {
         </div>
         <div className="card-footer px-lg-5 py-lg-4">
           <div className="text-sm text-muted">
-            Nie masz jeszcze konta?{' '}
+            Nie masz jeszcze konta?
             <a href="#" onClick={props.makeRegisterVisible}>
               Zarejestruj się
             </a>
