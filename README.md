@@ -1,6 +1,9 @@
 # **Emoji recognizer**
 
 **[Demo page on github](https://juriakajurek.github.io/aiproject/)**
+demo credentials:
+test@user.pl
+testUser1!
 
 ---
 
