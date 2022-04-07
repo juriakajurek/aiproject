@@ -25,3 +25,7 @@ The project was created as part of a course at an University of Economics.
 - [Bootstrap 4](https://getbootstrap.com/)
 - [Tensorflow](https://www.tensorflow.org/)
 - [Fingerpose](https://github.com/andypotato/fingerpose)
+
+### Backend:
+
+- [Easybase](https://easybase.io/)
